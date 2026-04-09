@@ -3,10 +3,9 @@ import { Button, Popconfirm, Table } from "antd";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAll, remove } from "../services/todo";
 import { Link } from "react-router-dom";
-import { Spin, Alert } from "antd";
 import toast from "react-hot-toast";
 type ITodos = {
-  id: number;
+  id: string;
   title: string;
   completed: boolean;
 };
@@ -25,12 +24,10 @@ const TodoList = () => {
     },
   });
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     mutation.mutate(id);
   };
 
-  if (query.isLoading) return <Spin />;
-  if (query.error) return <Alert message="Error" type="error" />;
   const columns = [
     {
       title: "Id",
@@ -56,7 +53,7 @@ const TodoList = () => {
       render: (todo: ITodos) => {
         return (
           <>
-            <Link to={`edit/${todo.id}`}>
+            <Link to={`/edit/${todo.id}`}>
               <Button type="primary">Edit</Button>
             </Link>
             <Popconfirm
